@@ -1,0 +1,19 @@
+{
+  "name": "Search Text with OpenSearch",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "runServices": ["opensearch-node1", "opensearch-dashboards"],
+  "workspaceFolder": "/workspace",
+  "forwardPorts": [5000, 9200, 5601],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.flake8",
+        "ms-python.black-formatter"
+      ]
+    }
+  },
+  "postCreateCommand": "pip install -r requirements.txt && bash .devcontainer/startup.sh"
+} 

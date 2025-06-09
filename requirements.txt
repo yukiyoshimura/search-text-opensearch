@@ -1,0 +1,4 @@
+opensearch-py
+flask
+PyPDF2
+requests 
