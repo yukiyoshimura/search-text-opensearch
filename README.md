@@ -1,0 +1,2 @@
+# search_text_opensearch
+OpenSearchを使って検索で指定した文字をPDFなどファイルの中身に対して検索する
