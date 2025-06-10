@@ -104,15 +104,18 @@ class PDFSearchManager:
                     id=doc_id,
                     body={
                         **page_data,
-                                                 'indexed_at': '2024-01-01T00:00:00Z'
+                        'indexed_at': '2024-01-01T00:00:00Z'
                     }
                 )
                 
             except Exception as e:
-                print(f"❌ インデックス化エラー (ページ {page_data['page_number']}): {e}")
+                print(f"❌ インデックス化エラー "
+                      f"(ページ {page_data['page_number']}): {e}")
                 return False
         
-        print(f"✅ PDF '{os.path.basename(pdf_path)}' を {len(pages_content)} ページインデックス化しました")
+        filename = os.path.basename(pdf_path)
+        page_count = len(pages_content)
+        print(f"✅ PDF '{filename}' を {page_count} ページインデックス化しました")
         return True
     
     def index_pdf_directory(self, directory_path: str) -> Dict[str, Any]:
@@ -143,7 +146,7 @@ class PDFSearchManager:
             else:
                 results['failed'].append(pdf_path)
         
-        print(f"\n📊 インデックス化結果:")
+        print("\n📊 インデックス化結果:")
         print(f"   成功: {len(results['success'])} ファイル")
         print(f"   失敗: {len(results['failed'])} ファイル")
         print(f"   合計: {results['total_files']} ファイル")
@@ -181,12 +184,16 @@ class PDFSearchManager:
             
             results = []
             for hit in response['hits']['hits']:
+                content = hit['_source']['content']
+                content_preview = (content[:300] + "..."
+                                   if len(content) > 300 else content)
+                
                 result = {
                     'filename': hit['_source']['filename'],
                     'file_path': hit['_source']['file_path'],
                     'page_number': hit['_source']['page_number'],
                     'score': hit['_score'],
-                    'content_preview': hit['_source']['content'][:300] + "..." if len(hit['_source']['content']) > 300 else hit['_source']['content']
+                    'content_preview': content_preview
                 }
                 
                 # ハイライト情報があれば追加
@@ -225,7 +232,8 @@ class PDFSearchManager:
                 body=unique_files_query
             )
             
-            unique_files = agg_response['aggregations']['unique_files']['value']
+            unique_files = (agg_response['aggregations']
+                            ['unique_files']['value'])
             
             return {
                 'total_pages': total_docs,

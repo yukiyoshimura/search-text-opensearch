@@ -4,7 +4,7 @@
   "service": "app",
   "runServices": ["opensearch-node1", "opensearch-dashboards"],
   "workspaceFolder": "/workspace",
-  "forwardPorts": [5000, 9200, 5601],
+  "forwardPorts": [8000, 9200, 5601],
   "customizations": {
     "vscode": {
       "extensions": [

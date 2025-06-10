@@ -112,8 +112,8 @@ def search_text_post():
 
 if __name__ == '__main__':
     if init_search_manager():
-        print("🚀 PDF検索APIを開始します...")
-        app.run(host='0.0.0.0', port=5000, debug=True)
+        print("🚀 PDF検索APIをポート8000で開始します...")
+        app.run(host='0.0.0.0', port=8000, debug=True)
     else:
         print("❌ 検索マネージャーの初期化に失敗しました")
         exit(1) 
